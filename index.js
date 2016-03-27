@@ -233,23 +233,23 @@ var woodSplitter = function(s1, s2) {
     // and TWO OF THEM ? WTF IDK EVEN
   } else {
 
-  // DONE: we're gonna get AN INFINITE LOOP of some-kind WHEN THERE IS ONLY ONE TOKEN
-  // TODO: unit-tests would be nice
-  // 2015-03-20T17:34:13.823352+00:00 app[worker.1]: m1: The musician in the wolf-trap: meets wolf already trapped, and saves himself by playing music.
-  // 2015-03-20T17:34:13.823346+00:00 app[worker.1]:
-  // 2015-03-20T17:34:13.873865+00:00 app[worker.1]: strategy: woodsplitter
-  // 2015-03-20T17:34:13.823354+00:00 app[worker.1]: m2: Snake-god.
+    // DONE: we're gonna get AN INFINITE LOOP of some-kind WHEN THERE IS ONLY ONE TOKEN
+    // TODO: unit-tests would be nice
+    // 2015-03-20T17:34:13.823352+00:00 app[worker.1]: m1: The musician in the wolf-trap: meets wolf already trapped, and saves himself by playing music.
+    // 2015-03-20T17:34:13.823346+00:00 app[worker.1]:
+    // 2015-03-20T17:34:13.873865+00:00 app[worker.1]: strategy: woodsplitter
+    // 2015-03-20T17:34:13.823354+00:00 app[worker.1]: m2: Snake-god.
 
-  var pos1, pos2;
-  while (!isAlpha(pos1)) pos1 = getRandomMiddleToken(t1);
-  while (!isAlpha(pos2)) pos2 = getRandomMiddleToken(t2);
+    var pos1, pos2;
+    while (!isAlpha(pos1)) pos1 = getRandomMiddleToken(t1);
+    while (!isAlpha(pos2)) pos2 = getRandomMiddleToken(t2);
 
-  var w1 = s1.search(new RegExp('\\b' + pos1 + '\\b'));
-  var w2 = s2.search(new RegExp('\\b' + pos2 + '\\b'));
+    var w1 = s1.search(new RegExp('\\b' + pos1 + '\\b'));
+    var w2 = s2.search(new RegExp('\\b' + pos2 + '\\b'));
 
-  var sent = s1.slice(0, w1).trim() + ' '  + s2.slice(w2).trim();
+    var sent = s1.slice(0, w1).trim() + ' '  + s2.slice(w2).trim();
 
-  return sent;
+    return sent;
   }
 };
 
@@ -430,24 +430,76 @@ var getStrategy = function(s1, s2) {
 };
 
 
+var newText = function(text1, text2) {
+
+  var strategy = getStrategy(text1, text2);
+  return strategy(text1, text2);
+
+};
+
+var gunsguns = [
+  'Gun. Bullet. Rifle. Shooter.',
+  'Bullet. Rifle. Shooter. Gun.',
+  'Rifle. Shooter. Gun. Bullet.',
+  'Guns kill.',
+  'It\'s not the bullet that kills you, it\'s the hole.',
+  'The only thing that stops a bad guy with a gun is a good guy with a gun.',
+  'Guns don\'t kill people, people kill people.',
+  // 'I have a love interest in every one of my films - a gun.',
+  'I have a very strict gun control policy: if there\'s a gun around, I want to be in control of it.',
+  'The Second Amendment of our Bill of Rights is my Concealed Weapons Permit, period.',
+  'A fear of weapons is a sign of retarded sexual and emotional maturity.',
+  'An armed society is a polite society',
+  'There are no dangerous weapons. There are only dangerous men.',
+  'But if someone has a gun and is trying to kill you ... it would be reasonable to shoot back with your own gun.',
+  'That rifle on the wall of the labourer\'s cottage or working class flat is the symbol of democracy. It is our job to see that it stays there.',
+  'It\'s better to have a gun and not need it than to need a gun and not have it.',
+  'A sword never kills anybody; it is a tool in the killer\'s hand.',
+  'No free man shall ever be debarred the use of arms.',
+  'I prefer dangerous freedom over peaceful slavery',
+  'They that can give up essential liberty to obtain a little temporary safety deserve neither liberty nor safety.',
+  'Beware the man who only has one gun. He probably knows how to use it!',
+  'An armed man will kill an unarmed man with monotonous regularity',
+  'If you carry a gun, people will call you paranoid. That\'s ridiculous. If I have a gun, what in the hell do I have to be paranoid for.',
+  'The two most important rules in a gunfight are: always cheat and always win.',
+  'Gun control is like trying to reduce drunk driving by making it tougher for sober people to own cars.',
+  'The right to buy weapons is the right to be free.',
+  'I\'ll give you my gun when you pry (or take) it from my cold, dead hands.',
+];
+
+
 var tweeter = function(texts) {
 
   if (motifs.length < 2) {
     motifs = JSON.parse(JSON.stringify(motifCore));
   }
 
-  var myth1 = pickRemove(motifs)[1];
-  var myth2 = pickRemove(motifs)[1];
+  // TODO: these need to be swapped, sometimes....
+  var myth1, myth2;
+  if(coinflip()) {
+    myth1 = pickRemove(motifs)[1];
+    myth2 = pickRemove(gunsguns);
+  } else {
+    myth2 = pickRemove(motifs)[1];
+    myth1 = pickRemove(gunsguns);
+  };
 
   logger('\nm1: ' + myth1 + '\nm2: ' + myth2);
 
-  var strategy = getStrategy(myth1, myth2);
+  // var strategy = getStrategy(myth1, myth2);
 
   try {
-    var newSentence = strategy(myth1, myth2);
+    var newSentence = newText(myth1, myth2);
+    // var newSentence = singleNouner('gun. bullet. rifle. shooter.', myth1);
+    // logger(newSentence);
+    // newSentence = newText(newSentence, 'gun');
+
+    // TODO: guns guns guns
+    // newSentence = newSentence.slice(0, newSentence.length -1) + ' and a gun.';
+
     // capitalize first word
     // I tried inflection's "titleize" but that zapped acronyms like "SSN" and "NSA"
-    newSentence = newSentence.slice(0,1).toUpperCase() + newSentence.slice(1);
+    newSentence = capitalizeWord(newSentence);
 
     console.log(newSentence);
 
@@ -476,16 +528,13 @@ var tweeter = function(texts) {
 };
 
 
-// Tweets ever n minutes
-// set config.seconds to 60 for a complete minute
-setInterval(function () {
-  try {
-    tweeter();
-  }
-  catch (e) {
-    console.log(e);
-  }
-}, 1000 * config.minutes * config.seconds);
-
-// Tweets once on initialization.
 tweeter();
+
+/**
+ TODO: break out the core of the hybridizer into a class so it can be unit-tested
+ TODO: the source should also be a strategy (allows me to evaluate)
+ TODO: pick and choose random or defined via config
+ TODO: make it simple, and put it online ASAP
+ TODO: then iterate the above stuff
+
+**/
