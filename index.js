@@ -382,14 +382,6 @@ var hasColons = function(s1, s2) {
 
 };
 
-// 50-50 chance (unless override)
-var coinflip = function(chance) {
-
-  if (!chance) chance = 0.5;
-
-  return (Math.random() < chance);
-
-};
 
 // input: two texts as strings
 // output: a strategy method
@@ -445,7 +437,6 @@ var gunsguns = [
   'It\'s not the bullet that kills you, it\'s the hole.',
   'The only thing that stops a bad guy with a gun is a good guy with a gun.',
   'Guns don\'t kill people, people kill people.',
-  // 'I have a love interest in every one of my films - a gun.',
   'I have a very strict gun control policy: if there\'s a gun around, I want to be in control of it.',
   'The Second Amendment of our Bill of Rights is my Concealed Weapons Permit, period.',
   'A fear of weapons is a sign of retarded sexual and emotional maturity.',
@@ -464,7 +455,8 @@ var gunsguns = [
   'The two most important rules in a gunfight are: always cheat and always win.',
   'Gun control is like trying to reduce drunk driving by making it tougher for sober people to own cars.',
   'The right to buy weapons is the right to be free.',
-  'I\'ll give you my gun when you pry (or take) it from my cold, dead hands.',
+  'I\'ll give you my gun when you pry it from my cold, dead hands.',
+  'I\'ll give you my gun when you take it from my cold, dead hands.'
 ];
 
 
@@ -498,7 +490,6 @@ var tweeter = function(texts) {
     // newSentence = newSentence.slice(0, newSentence.length -1) + ' and a gun.';
 
     // capitalize first word
-    // I tried inflection's "titleize" but that zapped acronyms like "SSN" and "NSA"
     newSentence = capitalizeWord(newSentence);
 
     console.log(newSentence);
