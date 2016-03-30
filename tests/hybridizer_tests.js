@@ -11,7 +11,7 @@ var tester = function() {
   var mocha = require('mocha'),
       chai = require('chai'),
       expect = chai.expect,
-      hybridizer = require('../hybridizer.js');
+      hybridizer = require('../hybridizer.js')({log: true});
 
 
   describe('main hybrize function', function() {

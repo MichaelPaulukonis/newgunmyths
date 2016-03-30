@@ -2,3 +2,4 @@ node_modules/
 permissions.json
 .env
 *.log
+dumpfile.txt

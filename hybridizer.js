@@ -12,8 +12,9 @@ var hybridizer = function(config) {
 
   var logger = function(msg) {
     // console.log('logging?: ' + config.log);
-    // if (config.log)
-    console.log(msg);
+    if (config.log) {
+      console.log(msg);
+    }
   };
 
   // adding to array.prototype caused issues with nlp_compromise
@@ -95,7 +96,7 @@ var hybridizer = function(config) {
       var taggedWord = taggedWords[i];
       if (targetPos.indexOf(taggedWord[1]) > -1) {
         // consider sequention nouns to be a noun-phrase
-        // this is probably a crap algorithm
+        // this is <strike>probably</strike> a crap algorithm
         currn.push(taggedWord[0]);
       } else {
         if (currn.length > 0) {
@@ -103,6 +104,10 @@ var hybridizer = function(config) {
           currn = [];
         }
       }
+    }
+
+    if (currn.length > 0) {
+      nn.push(currn.join(' '));
     }
 
     return nn;
@@ -259,6 +264,8 @@ var hybridizer = function(config) {
   // if s2 is a noun-phrase, swap s1 and s2
   var singleNouner = function(s1, s2) {
 
+    logger(`s1: ${s1} \ns2: ${s2}`);
+
     var nouns1 = getNounArray(s1);
     var nouns2 = getNounArray(s2);
 
@@ -287,6 +294,8 @@ var hybridizer = function(config) {
     var targ = new RegExp('\\b' + nounTarget + '\\b', 'ig');
 
     var out = s2.replace(targ, nounReplacer);
+
+    console.log(out);
 
     return out;
 
@@ -439,4 +448,4 @@ var hybridizer = function(config) {
 
 };
 
-module.exports = hybridizer();
+module.exports = hybridizer;
