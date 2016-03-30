@@ -88,7 +88,6 @@ var hybridizer = function(config) {
 
     var nn = [];
     var currn = [];
-    var active = false;
     var targetPos = 'NNPSNNS'; // NN, NNP, NNPS, NNS
     var words = new pos.Lexer().lex(text);
     var taggedWords = new pos.Tagger().tag(words);
@@ -411,7 +410,7 @@ var hybridizer = function(config) {
       // prefer single-nouner over multiple-replacer
       if (coinflip(0.3)) {
         logger('strategy: replacer FOUND NNS');
-        strategy = (Math.random() > 0.5) ? replacer('NN', direction.forward) : replacer('NN', direction.reverse);
+        strategy = coinflip() ? replacer('NN', direction.forward) : replacer('NN', direction.reverse);
       } else {
         logger('strategy: singleNouner');
         strategy = singleNouner;
@@ -433,9 +432,9 @@ var hybridizer = function(config) {
   };
 
   return {
-    hybridize: newText
-    , woodsplitter: woodSplitter
-    , singleNouner: singleNouner
+    hybridize: newText,
+    woodsplitter: woodSplitter,
+    singleNouner: singleNouner
   };
 
 };
