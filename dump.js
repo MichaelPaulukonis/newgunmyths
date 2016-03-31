@@ -7,8 +7,10 @@ var dump = function() {
 
   for (let i = 0; i < 100; i++) {
     text.push(gunner());
-  };
+  }
 
   console.log(text.join('\n'));
 
-}();
+};
+
+dump();

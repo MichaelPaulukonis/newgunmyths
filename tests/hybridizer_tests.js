@@ -6,10 +6,9 @@
 
 // TODO: get tests set up.
 
-var tester = function() {
+(function() {
 
-  var mocha = require('mocha'),
-      chai = require('chai'),
+  var chai = require('chai'),
       expect = chai.expect,
       hybridizer = require('../hybridizer.js')({log: true});
 
@@ -47,4 +46,4 @@ var tester = function() {
 
   });
 
-}();
+}());

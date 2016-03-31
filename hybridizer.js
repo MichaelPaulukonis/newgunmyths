@@ -17,20 +17,9 @@ var hybridizer = function(config) {
     }
   };
 
-  // adding to array.prototype caused issues with nlp_compromise
-  // not used here, but hey, good practice anyway.
-  var pick = function(arr) {
-    return arr[Math.floor(Math.random()*arr.length)];
-  };
-
   var pickRemove = function(arr) {
     var index = Math.floor(Math.random()*arr.length);
     return arr.splice(index,1)[0];
-  };
-
-
-  var getRandom = function(min,max) {
-    return Math.floor(Math.random() * (max - min) + min);
   };
 
   // return true or false

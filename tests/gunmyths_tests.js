@@ -1,9 +1,8 @@
 'use strict';
 
-var tester = function() {
+(function() {
 
-  var mocha = require('mocha'),
-      chai = require('chai'),
+  var chai = require('chai'),
       expect = chai.expect,
       gunner = require('../gunmyth.js')({log: false});
 
@@ -40,4 +39,4 @@ var tester = function() {
 
   });
 
-}();
+}());
