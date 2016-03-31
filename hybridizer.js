@@ -227,6 +227,7 @@ var hybridizer = function(config) {
       // return the one that isn't of length 0
       // which, uh, shouldn't ever happen.
       // and TWO OF THEM ? WTF IDK EVEN
+      return '';
     } else {
 
       // DONE: we're gonna get AN INFINITE LOOP of some-kind WHEN THERE IS ONLY ONE TOKEN
@@ -237,12 +238,27 @@ var hybridizer = function(config) {
       // 2015-03-20T17:34:13.823354+00:00 app[worker.1]: m2: Snake-god.
 
       var pos1, pos2;
+      // get a word, not punctuation
       while (!isAlpha(pos1)) pos1 = getRandomMiddleToken(t1);
       while (!isAlpha(pos2)) pos2 = getRandomMiddleToken(t2);
+
+      logger(`t1: ${t1} \nt2: ${t2} \npos1: ${pos1} \npos2: ${pos2}`);
 
       var w1 = s1.search(new RegExp('\\b' + pos1 + '\\b'));
       var w2 = s2.search(new RegExp('\\b' + pos2 + '\\b'));
 
+      // rather, the condition should be
+      // if t1 has length > 0, but only one of them contains alphas
+      if (t1.length == 1 || (t1.length == 2 && !isAlpha(t1[1]))) {
+        logger('single word');
+        w1 = s1.length -1;
+      }
+
+      // not strictly true
+      // 'Demons.' := ['Demons', '.']
+      // which has length2, and the while() loops above ignore the punctuation
+      // is s1 is only a single word, we will delete it, as w1 = 0
+      // and s1.slice(0,0) := ''
       var sent = s1.slice(0, w1).trim() + ' '  + s2.slice(w2).trim();
 
       return sent;

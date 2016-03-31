@@ -30,6 +30,7 @@
     describe('woodSplitter tests', function() {
 
 
+      // NOTE: the inverse case is not true (second second has only one word succeeds if first has > 1)
       it('fails when the first sentence has only one word', function() {
         var s1 = 'Demons.'
         ,s2 = 'The Second Amendment of our Bill of Rights is my Concealed Weapons Permit, period.'
