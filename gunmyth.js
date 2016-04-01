@@ -66,7 +66,9 @@ var gunmyth = function(config) {
       gunsguns = JSON.parse(JSON.stringify(gunCore));
 
 
-  var myther = function() {
+  var myther = function(method) {
+
+    method = (method && hybridizer[method] && typeof hybridizer[method] === 'function') ? method : 'hybridize';
 
     if (motifs.length < 2) {
       motifs = JSON.parse(JSON.stringify(motifCore));
@@ -74,7 +76,6 @@ var gunmyth = function(config) {
     if (gunsguns.length < 1) {
       gunsguns = JSON.parse(JSON.stringify(gunCore));
     }
-
 
     // these need to be swapped, sometimes....
     var myth1, myth2;
@@ -89,8 +90,8 @@ var gunmyth = function(config) {
     logger('\nm1: ' + myth1 + '\nm2: ' + myth2);
 
     try {
-      // var newSentence = hybridizer.hybridize(myth1, myth2);
-      var newSentence = hybridizer.singleNouner(myth1, myth2);
+
+      var newSentence = hybridizer[method](myth1, myth2);
 
       // capitalize first word
       newSentence = capitalizeWord(newSentence);
@@ -104,8 +105,8 @@ var gunmyth = function(config) {
       console.log('Error: ' + err);
       newSentence = '';
     }
-        // don't allow sentence to be a single substring of an original text
-        // || myth1.indexOf(newSentence) > -1 || myth2.indexOf(newSentence) > -1
+    // don't allow sentence to be a single substring of an original text
+    // || myth1.indexOf(newSentence) > -1 || myth2.indexOf(newSentence) > -1
     if (newSentence.length === 0 || newSentence.length > 140) {
       return myther();
     } else {

@@ -8,6 +8,7 @@ module.exports = {
   access_token:         process.env.ACCESS_TOKEN,
   access_token_secret:  process.env.ACCESS_TOKEN_SECRET,
 
+  method:               'singleNouner',
   tweet_on:             (process.env.TWEET_ON.toLowerCase() === 'true'),
   log:                  (process.env.LOG.toLowerCase() === 'true')
 };

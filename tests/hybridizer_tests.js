@@ -1,10 +1,4 @@
 'use strict';
-// 2016-03-28T12:10:23.983330+00:00 app[scheduler.2509]: m1: Demons.
-// 2016-03-28T12:10:23.983338+00:00 app[scheduler.2509]: m2: The Second Amendment of our Bill of Rights is my Concealed Weapons Permit, period.
-// 2016-03-28T12:10:24.727852+00:00 app[scheduler.2509]: strategy: woodsplitter
-// 2016-03-28T12:10:24.729609+00:00 app[scheduler.2509]:  Second Amendment of our Bill of Rights is my Concealed Weapons Permit, period.
-
-// TODO: get tests set up.
 
 (function() {
 
@@ -94,8 +88,27 @@
         expect(s2.indexOf(h1)).to.equal(-1);
       });
 
-
     });
+
+
+    /**
+     I'd like to fix this sort of thing:
+
+     m1: "Get into my belly."
+     m2: An armed society is a polite society.
+     strategy: woodsplitter
+     t1: ",Get,into,my,belly,.,"
+     t2: An,armed,society,is,a,polite,society,.
+     pos1: into
+     pos2: a
+     "Get a polite society.
+
+     Is that a gunmyth issue, or a hybridizer issue?
+     hybridizer, I think. General cleanup stuff.
+
+     **/
+
+
 
   });
 
