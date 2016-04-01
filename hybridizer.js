@@ -3,7 +3,7 @@
 // TODO: config object
 var hybridizer = function(config) {
 
-  config = config || {};
+  config = config || {log: false};
 
   // ### Libraries and globals
   var pos = require('pos');
@@ -11,7 +11,6 @@ var hybridizer = function(config) {
   // ### Utility Functions
 
   var logger = function(msg) {
-    // console.log('logging?: ' + config.log);
     if (config.log) {
       console.log(msg);
     }
@@ -300,7 +299,7 @@ var hybridizer = function(config) {
 
     var out = s2.replace(targ, nounReplacer);
 
-    console.log(out);
+    logger(out);
 
     return out;
 
@@ -385,8 +384,6 @@ var hybridizer = function(config) {
 
     var found = s1f && s2f;
 
-    // if (pos == 'NN') console.log('found: ' + found);
-
     return found;
 
   };
@@ -448,7 +445,11 @@ var hybridizer = function(config) {
   return {
     hybridize: newText,
     woodsplitter: woodSplitter,
-    singleNouner: singleNouner
+    singleNouner: singleNouner,
+    splitterPunct: splitterPunct,
+    splitterPos: splitterPos,
+    nounReplaceForward: replacer('NN', direction.forward),
+    nounReplaceReverse: replacer('NN', direction.reverse)
   };
 
 };

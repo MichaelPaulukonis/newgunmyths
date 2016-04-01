@@ -10,7 +10,6 @@ var gunmyth = function(config) {
   // ### Utility Functions
 
   var logger = function(msg) {
-    // console.log('logging?: ' + config.log);
     if (config.log) console.log(msg);
   };
 
